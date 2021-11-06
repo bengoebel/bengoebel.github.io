@@ -4,9 +4,7 @@ output: html_document
 
 Below is my CV as of November 5, 2021.
 
-```{r include = FALSE}
-knitr::include_graphics("images/bgoebel_resume_11_05_2021.pdf")
-```
+![](images/bgoebel_resume_11_05_2021.jpg)
 
 
 
