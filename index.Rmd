@@ -1,12 +1,7 @@
 ---
 title: "Ben Goebel"
-output: 
-  html_document:
-    toc: true
-    toc_float: true
+output: html_document
 ---
-
-# Introduction
 
 I am a first-year Master of Science student in Biostatistics at the 
 Mailman School of Public Health at Columbia University.
