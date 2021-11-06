@@ -1,0 +1,14 @@
+---
+title: "Ben Goebel"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+# Introduction
+
+I am a first-year Master of Science student in Biostatistics at the 
+Mailman School of Public Health at Columbia University.
+
+![](images/bgoebel_headshot.jpg)
