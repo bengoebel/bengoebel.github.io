@@ -1,9 +1,10 @@
 ---
-title: "Plotly Dashboard of Restaurant Inspection Data for a Sample of 10,000"
+title: "Plotly Dashboard of Restaurant Inspection Data for a Sample of 100,000"
 output: 
   flexdashboard::flex_dashboard:
     orientation: columns
     vertical_layout: fill
+    source: embed
 ---
 
 ```{r setup, include=FALSE}
@@ -14,6 +15,7 @@ library(tidyverse)
 ```
 
 ```{r}
+# Take random sample of 100,000 with random seed
 set.seed(2)
 rest_inspec_sample <- rest_inspec %>%
   slice_sample(n = 100000)
@@ -23,9 +25,11 @@ rest_inspec_sample <- rest_inspec %>%
 Column {data-width=650}
 -----------------------------------------------------------------------
 
-### Chart A
+### Proportion of each Grade in each Borough
 
 ```{r}
+# Get proportion of each grade in each borough
+# Summarize peels back the group level from borough and grade to just borough
 rest_inspec_sample %>%
   drop_na(boro, grade) %>%
   filter(boro != "Missing") %>%
@@ -33,15 +37,20 @@ rest_inspec_sample %>%
   summarize(boro_grade_sum = n()) %>%
   mutate(boro_sum = sum(boro_grade_sum)) %>%
   mutate(boro_grade_prop = boro_grade_sum/boro_sum) %>%
-  plot_ly(x = ~ boro, y = ~boro_grade_prop, name = ~grade, type = "bar")
+  plot_ly(x = ~ boro, y = ~boro_grade_prop, name = ~grade, type = "bar") %>%
+    layout(xaxis = list(title = "Borough"),
+           yaxis = list(title = "Proportion of Each Grade"),
+           legend = list(title = list(text = "Grade")))
 ```
 
 Column {data-width=350}
 -----------------------------------------------------------------------
 
-### Chart B
+### Total Number of Inspections by Year
 
 ```{r}
+# Visualize total number of inspections by year
+# Use lubridate package to get years from inspection date
 rest_inspec_sample %>%
   mutate(inspection_year = lubridate::year(inspection_date)) %>%
   group_by(inspection_year) %>%
@@ -51,14 +60,20 @@ rest_inspec_sample %>%
   filter(inspection_year >= 2013) %>%
   plot_ly(x = ~inspection_year, y = ~total_inspections, type = "scatter",
           mode = "lines") %>%
-  layout(xaxis = list(tickvals = list(2013, 2014, 2015, 2016, 2017), 
-                                      tickmode = "array"))
+  layout(xaxis = list(title = "Inspection Year",
+                      tickvals = list(2013, 2014, 2015, 2016, 2017), 
+                                      tickmode = "array"),
+         yaxis = list(title = "Total Number of Inspections"))
 ```
 
-### Chart C
+### Restaurant Score Distribution by Borough
 
 ```{r}
+# Get the distribution of scores in each borough
 rest_inspec_sample %>%
-  plot_ly(x = ~boro, y = ~score, type = "box")
+  filter(boro != "Missing") %>%
+  plot_ly(x = ~boro, y = ~score, type = "box") %>%
+  layout(xaxis = list(title = "Borough"),
+         yaxis = list(title = "Restaurant Score"))
 ```
 
