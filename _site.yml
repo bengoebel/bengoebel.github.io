@@ -1,8 +1,10 @@
-name: "Yay internet!"
+name: "Ben Goebel"
 output_dir: "."
 navbar:
   title: "Home"
   right:
+    - text: "Plotly"
+      href: plotly_dashboard.html
     - text: "CV"
       href: cv.html
     - icon: fa-envelope fa-lg

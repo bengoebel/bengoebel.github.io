@@ -1,0 +1,64 @@
+---
+title: "Plotly Dashboard of Restaurant Inspection Data for a Sample of 10,000"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(plotly)
+library(p8105.datasets)
+library(tidyverse)
+```
+
+```{r}
+set.seed(2)
+rest_inspec_sample <- rest_inspec %>%
+  slice_sample(n = 100000)
+```
+
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r}
+rest_inspec_sample %>%
+  drop_na(boro, grade) %>%
+  filter(boro != "Missing") %>%
+  group_by(boro, grade) %>%
+  summarize(boro_grade_sum = n()) %>%
+  mutate(boro_sum = sum(boro_grade_sum)) %>%
+  mutate(boro_grade_prop = boro_grade_sum/boro_sum) %>%
+  plot_ly(x = ~ boro, y = ~boro_grade_prop, name = ~grade, type = "bar")
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
+rest_inspec_sample %>%
+  mutate(inspection_year = lubridate::year(inspection_date)) %>%
+  group_by(inspection_year) %>%
+  summarize(
+    total_inspections = n()
+  ) %>%
+  filter(inspection_year >= 2013) %>%
+  plot_ly(x = ~inspection_year, y = ~total_inspections, type = "scatter",
+          mode = "lines") %>%
+  layout(xaxis = list(tickvals = list(2013, 2014, 2015, 2016, 2017), 
+                                      tickmode = "array"))
+```
+
+### Chart C
+
+```{r}
+rest_inspec_sample %>%
+  plot_ly(x = ~boro, y = ~score, type = "box")
+```
+
