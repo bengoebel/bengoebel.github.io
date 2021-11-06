@@ -1,5 +1,5 @@
 ---
-title: "Plotly Dashboard of Restaurant Inspection Data for a Sample of 100,000"
+title: "Restaurant Inspection Data for a Sample of 100,000 Restaurant Inspections"
 output: 
   flexdashboard::flex_dashboard:
     orientation: columns
@@ -37,7 +37,7 @@ rest_inspec_sample %>%
   summarize(boro_grade_sum = n()) %>%
   mutate(boro_sum = sum(boro_grade_sum)) %>%
   mutate(boro_grade_prop = boro_grade_sum/boro_sum) %>%
-  plot_ly(x = ~ boro, y = ~boro_grade_prop, name = ~grade, type = "bar") %>%
+  plot_ly(x = ~boro, y = ~boro_grade_prop, name = ~grade, type = "bar") %>%
     layout(xaxis = list(title = "Borough"),
            yaxis = list(title = "Proportion of Each Grade"),
            legend = list(title = list(text = "Grade")))
