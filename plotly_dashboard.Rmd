@@ -1,5 +1,5 @@
 ---
-title: "Restaurant Inspection Data for a Sample of 100,000 Restaurant Inspections"
+title: "Restaurant Inspection Data for a Sample of 10,000 Restaurant Inspections"
 output: 
   flexdashboard::flex_dashboard:
     orientation: columns
@@ -15,10 +15,10 @@ library(tidyverse)
 ```
 
 ```{r}
-# Take random sample of 100,000 with random seed
+# Take random sample of 10,000 with random seed
 set.seed(2)
 rest_inspec_sample <- rest_inspec %>%
-  slice_sample(n = 100000)
+  slice_sample(n = 10000)
 ```
 
 
